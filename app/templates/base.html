@@ -1,0 +1,87 @@
+{% extends "bootstrap/base.html" %}
+{% block html_attribs %} lang="zh-CN" {% endblock %}
+{% block title %} Welcome {% endblock %}
+
+<!-- your own css -->
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/mystyle.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/flat-ui.min.css') }}">
+<link rel="shortcut icon" href="{{ url_for('static',filename='hoptop.ico') }}">
+<style type="text/css">
+	h1{
+		font-size:50px;
+	}
+	h2{
+		font-size: 40px;
+	}
+	h3{
+		font-size: 30px;
+	}
+	p{
+		font-size: 15px;
+	}
+	blockquote p{
+		font-size: 17px;
+	}
+	body{
+		font-size: 15px;
+	}
+</style>
+{% endblock %}
+
+{% block body_attribs %} style="background-color:#EEE" {% endblock %}
+<!--导航栏-->
+{% block navbar %}
+	<nav class="navbar navbar-default navbar-Amethyst" role="navigation" style="margin:10px 0px;">
+	<div class="container">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+      <span class="sr-only">Toggle navigation</span>
+    </button>
+    <a class="navbar-brand" href="/">Undertone</a>
+  </div>
+  <div class="collapse navbar-collapse" id="navbar-collapse-01">
+
+    <ul class="nav navbar-nav">
+    	<li></li>
+      <li class="active"><a href="/">BLOG</a></li>
+      <li><a href="/music">MUSIC</a></li>
+      <li><a href="/about">ABOUT ME</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+          {% if current_user.is_authenticated %}
+    	    <li id="signin_icon"><a href="{{ url_for('auth.logout') }}">SIGNOUT</a></li>
+		  <li><a href="{{ url_for('main.write') }}">Write Blog</a></li>
+          {% else %}
+            <li><a href="{{ url_for('auth.login') }}">SIGNIN</a></li>
+          {% endif %}
+
+
+        </ul>
+  </div><!-- /.navbar-collapse -->
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<!--flash设置-->
+<div class="container">
+	{% for message in get_flashed_messages() %}
+	<div class="alert alert-warning">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		{{ message }}
+	</div>
+	{% endfor %}
+</div>
+<!--body-->
+{% block page_content %} {% endblock %}
+
+{% endblock %}
+
+<!-- your own javascript -->
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript" src="{{ url_for('static',filename='mystyle.js') }}"></script>
+{% endblock %}
